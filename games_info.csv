@@ -1,0 +1,52 @@
+HomeTeamName,AwayTeamName,DateandTimeCET,MatchID,RoundName,ScoreHome,ScoreAway
+Turkey,Italy,2021-06-11T21:00:00,2024447,final tournament,0,3
+Wales,Switzerland,2021-06-12T15:00:00,2024448,final tournament,1,1
+Denmark,Finland,2021-06-12T18:00:00,2024449,final tournament,0,1
+Belgium,Russia,2021-06-12T21:00:00,2024450,final tournament,3,0
+England,Croatia,2021-06-13T15:00:00,2024451,final tournament,1,0
+Austria,North Macedonia,2021-06-13T18:00:00,2024442,final tournament,3,1
+Netherlands,Ukraine,2021-06-13T21:00:00,2024441,final tournament,3,2
+Scotland,Czech Republic,2021-06-14T15:00:00,2024452,final tournament,0,2
+Poland,Slovakia,2021-06-14T18:00:00,2024454,final tournament,1,2
+Spain,Sweden,2021-06-14T21:00:00,2024453,final tournament,0,0
+Hungary,Portugal,2021-06-15T18:00:00,2024455,final tournament,0,3
+France,Germany,2021-06-15T21:00:00,2024456,final tournament,1,0
+Finland,Russia,2021-06-16T15:00:00,2024460,final tournament,0,1
+Turkey,Wales,2021-06-16T18:00:00,2024457,final tournament,0,2
+Italy,Switzerland,2021-06-16T21:00:00,2024458,final tournament,3,0
+Ukraine,North Macedonia,2021-06-17T15:00:00,2024444,final tournament,2,1
+Denmark,Belgium,2021-06-17T18:00:00,2024459,final tournament,1,2
+Netherlands,Austria,2021-06-17T21:00:00,2024443,final tournament,2,0
+Sweden,Slovakia,2021-06-18T15:00:00,2024464,final tournament,1,0
+Croatia,Czech Republic,2021-06-18T18:00:00,2024462,final tournament,1,1
+England,Scotland,2021-06-18T21:00:00,2024461,final tournament,0,0
+Hungary,France,2021-06-19T15:00:00,2024465,final tournament,1,1
+Portugal,Germany,2021-06-19T18:00:00,2024466,final tournament,2,4
+Spain,Poland,2021-06-19T21:00:00,2024463,final tournament,1,1
+Italy,Wales,2021-06-20T18:00:00,2024468,final tournament,1,0
+Switzerland,Turkey,2021-06-20T18:00:00,2024467,final tournament,3,1
+North Macedonia,Netherlands,2021-06-21T18:00:00,2024445,final tournament,0,3
+Ukraine,Austria,2021-06-21T18:00:00,2024446,final tournament,0,1
+Finland,Belgium,2021-06-21T21:00:00,2024470,final tournament,0,2
+Russia,Denmark,2021-06-21T21:00:00,2024469,final tournament,1,4
+Croatia,Scotland,2021-06-22T21:00:00,2024472,final tournament,3,1
+Czech Republic,England,2021-06-22T21:00:00,2024471,final tournament,0,1
+Slovakia,Spain,2021-06-23T18:00:00,2024473,final tournament,0,5
+Sweden,Poland,2021-06-23T18:00:00,2024474,final tournament,3,2
+Germany,Hungary,2021-06-23T21:00:00,2024475,final tournament,2,2
+Portugal,France,2021-06-23T21:00:00,2024476,final tournament,2,2
+Wales,Denmark,2021-06-26T18:00:00,2024478,eighth finals,0,4
+Italy,Austria,2021-06-26T21:00:00,2024477,eighth finals,2,1
+Netherlands,Czech Republic,2021-06-27T18:00:00,2024480,eighth finals,0,2
+Belgium,Portugal,2021-06-27T21:00:00,2024479,eighth finals,1,0
+Croatia,Spain,2021-06-28T18:00:00,2024482,eighth finals,3,5
+France,Switzerland,2021-06-28T21:00:00,2024481,eighth finals,3,3
+England,Germany,2021-06-29T18:00:00,2024484,eighth finals,2,0
+Sweden,Ukraine,2021-06-29T21:00:00,2024483,eighth finals,1,2
+Switzerland,Spain,2021-07-02T18:00:00,2024485,quarter finals,1,1
+Belgium,Italy,2021-07-02T21:00:00,2024486,quarter finals,1,2
+Czech Republic,Denmark,2021-07-03T18:00:00,2024488,quarter finals,1,2
+Ukraine,England,2021-07-03T21:00:00,2024487,quarter finals,0,4
+Italy,Spain,2021-07-06T21:00:00,2024489,semi finals,1,1
+England,Denmark,2021-07-07T21:00:00,2024490,semi finals,2,1
+Italy,England,2021-07-11T21:00:00,2024491,final,1,1
