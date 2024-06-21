@@ -9,7 +9,7 @@ Original file is located at
 
 import pandas as pd
 
-def DataProcessing(DF_Data: pd.DataFrame) -> pd.DataFrame:
+def dataProcessing(DF_Data: pd.DataFrame) -> pd.DataFrame:
     """
     Processes the input DataFrame by dropping duplicate rows based on 'MatchID'
     and keeps the last occurrence of each duplicate.
@@ -23,7 +23,7 @@ def DataProcessing(DF_Data: pd.DataFrame) -> pd.DataFrame:
     final_results = DF_Data.drop_duplicates(subset='MatchID', keep='last')
     return final_results
 
-def CalculateWinsLosses(final_results: pd.DataFrame) -> pd.DataFrame:
+def calculateWinsLosses(final_results: pd.DataFrame) -> pd.DataFrame:
     # Initialize dictionaries to store wins and losses
     wins = {}
     losses = {}

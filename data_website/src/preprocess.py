@@ -1,33 +1,50 @@
 import pandas as pd
 
 def drop_useless_columns(df):
-    """
-    Drops unnecessary columns from the dataframe.
-    
-    Args:
-        df: The original dataframe.
-        
-    Returns:
-        A dataframe without the 'Event' and 'Time' columns.
-    """
-    # Drop the 'Event' and 'Time' columns
-    df_filtered = df.drop(columns=['Event', 'Time'])
-    return df_filtered
+    '''
+        Drops the columns 'Event' and 'Time' from the dataframe and duplicates
+        args:
+            my_df: The dataframe to preprocess
+        returns:
+            The dataframe with rounded numbers
+    '''
+    df.drop(['Event', 'Time'], axis=1, inplace=True)
+    df_games = df.drop_duplicates()
+    df_games.to_csv('games_info.csv', index=False) 
+    return df_games.round(2)
 
 def get_statistics(df):
-    """
-    Extracts and processes match information from the dataframe.
-    
-    Args:
-        df: The filtered dataframe.
+    '''
+        compute statistics for the given dataframe
+        args:
+            df: The dataframe to compute statistics on
+        returns:
+            An array containing the total goal scored and conceded by each country with the goal difference
+    '''
+    country_stats = {}
+
+    for _, row in df.iterrows():
+        home_team = row['HomeTeamName']
+        away_team = row['AwayTeamName']
+        home_goals = row['ScoreHome']
+        away_goals = row['ScoreAway']
         
-    Returns:
-        A dataframe with relevant match information and an added 'MatchNumber' column.
-    """
-    # Select relevant columns and create a 'MatchNumber' column
-    df_matches_info = df[['HomeTeamName', 'AwayTeamName', 'DateandTimeCET', 'MatchID', 'RoundName', 'ScoreHome', 'ScoreAway']]
-    df_matches_info['MatchNumber'] = df_matches_info.groupby('MatchID').ngroup() + 1
-    return df_matches_info
+        if home_team not in country_stats:
+            country_stats[home_team] = {'Goal_Scored': 0, 'Goal_Conceded': 0}
+        country_stats[home_team]['Goal_Scored'] += home_goals
+        country_stats[home_team]['Goal_Conceded'] += away_goals
+        
+        if away_team not in country_stats:
+            country_stats[away_team] = {'Goal_Scored': 0, 'Goal_Conceded': 0}
+        country_stats[away_team]['Goal_Scored'] += away_goals
+        country_stats[away_team]['Goal_Conceded'] += home_goals
+
+    result_df = pd.DataFrame.from_dict(country_stats, orient='index').reset_index()
+    result_df.columns = ['Country', 'Goal_Scored', 'Goal_Conceded']
+
+    result_df['Goal_Difference'] = result_df['Goal_Scored'] - result_df['Goal_Conceded']
+    result_df = result_df.sort_values(by='Goal_Difference', ascending=True)
+    return result_df
 
 def get_goals(df):
     """

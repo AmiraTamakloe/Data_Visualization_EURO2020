@@ -40,6 +40,8 @@ def draw(fig, data):
     '''
 
     fig = go.Figure(fig)
+    print('DATAAAAA')
+    print(data)
     countries = data['Country'].unique()
     
     for country in countries:
