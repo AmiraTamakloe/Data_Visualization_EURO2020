@@ -1,19 +1,16 @@
-'''
-    Contains the server to run our application.
-'''
-from flask_failsafe import failsafe
+from app import app
+import webbrowser
+from threading import Timer
 
+def open_browser():
+    """
+    This function opens the default web browser to the Dash app's URL.
+    """
+    webbrowser.open_new("http://127.0.0.1:8050/")
 
-@failsafe
-def create_app():
-    '''
-        Gets the underlying Flask server from our Dash app.
-        Returns:
-            The server to be run
-    '''
-    from app import app  # pylint: disable=import-outside-toplevel
-    return app.server
-
-
-if __name__ == "__main__":
-    create_app().run(port="8050", debug=True)
+if __name__ == '__main__':
+    # Set a timer to open the browser 1 second after the script starts
+    Timer(1, open_browser).start()
+    
+    # Run the Dash app's server with debug mode enabled
+    app.run_server(debug=True)

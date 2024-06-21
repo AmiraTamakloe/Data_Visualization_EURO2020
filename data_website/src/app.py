@@ -1,54 +1,46 @@
-
 # -*- coding: utf-8 -*-
 
 '''
     File name: app.py
-    Author: Amira Tamakloe
+    Author: Leila Ekradi
     Course: INF8808
     Python Version: 3.8
 '''
 
 import dash
-from dash import html
-from dash import dcc
-
-
+from dash import html, dcc
+from dash.dependencies import Input, Output
 import pandas as pd
 import preprocess
-from visualizations.vis4 import vis4_goal_diff
-from visualizations.vis5 import vis5_total_goals
+import bar_chart
+import heatmap
 
+# Initialize the Dash app
 app = dash.Dash(__name__)
-app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
+app.title = 'Euro2020 - INF8808 - Leila Ekradi'
 
-def prep_data_vis4():
+def prep_data():
     '''
-        Imports the .csv file and does some preprocessing.
-
+        Loads and preprocesses the data from the CSV file.
+        
         Returns:
             A pandas dataframe containing the preprocessed data.
     '''
-    df = pd.read_csv('./src/assets/data/project_data.csv')
-    df_filtered  = preprocess.drop_useless_columns(df)
+    # Load the dataset
+    df = pd.read_csv(r'C:\Users\14389\OneDrive\Desktop\project_data.csv')
+    # Drop unnecessary columns
+    df_filtered = preprocess.drop_useless_columns(df)
+    # Get match statistics
     match_df = preprocess.get_statistics(df_filtered)
-
     return match_df
 
-def prep_data_vis5():
-    df_match_info = pd.read_csv('./src/assets/data/project_data.csv')
-    sorted_goals = preprocess.vis5_get_total_goals(df_match_info)
-    goals_df = vis5_total_goals.draw_figure(sorted_goals)
-
-    return goals_df
-
-
-# TODO: add 5-6 parameters for this function
-def init_app_layout(vis4_goals, vis5_goals):
+def init_app_layout(bar_chart_fig, heatmap_fig):
     '''
-        Generates the HTML layout representing the app.
-
+        Initializes the app layout.
+        
         Args:
-            figure: The figure to display.
+            bar_chart_fig: The bar chart figure to display.
+            heatmap_fig: The heatmap figure to display.
         Returns:
             The HTML structure of the app's web page.
     '''
@@ -58,49 +50,49 @@ def init_app_layout(vis4_goals, vis5_goals):
         ]),
         html.Main(children=[
             html.Div(className='viz-container', children=[
-                dcc.Graph(
-                    figure=vis4_goals,
-                    config=dict(
-                        scrollZoom=False,
-                        showTips=False,
-                        showAxisDragHandles=False,
-                        doubleClick=False,
-                        displayModeBar=False
-                    ),
-                    className='graph',
-                    id='line-chart'
-                )
-            ]),
-            # todo: add kids
-            html.Div(className='viz-container', children=[
-                dcc.Graph(
-                    figure=vis5_goals,
-                    config=dict(
-                        scrollZoom=False,
-                        showTips=False,
-                        showAxisDragHandles=False,
-                        doubleClick=False,
-                        displayModeBar=False
-                    ),
-                    className='graph',
-                    id='line-chart'
-                )
-            ]),
+                dcc.Dropdown(
+                    id='metric-dropdown',
+                    options=[
+                        {'label': 'Total Goals', 'value': 'TotalGoals'},
+                        {'label': 'Average Goals', 'value': 'AvgGoals'}
+                    ],
+                    value='TotalGoals',
+                    style={'width': '50%'}
+                ),
+                dcc.Graph(id='performance-bar-chart', figure=bar_chart_fig),
+                dcc.Graph(id='team-goals-heatmap', figure=heatmap_fig)
+            ])
         ]),
     ])
 
+# Prepare the data
+data = prep_data()
+# Initialize figures
+bar_chart_fig = bar_chart.init_figure()
+bar_chart_fig = bar_chart.draw(bar_chart_fig, preprocess.calculate_goals(data))
+heatmap_fig = heatmap.draw(data)
+# Set the app layout
+app.layout = init_app_layout(bar_chart_fig, heatmap_fig)
 
-# DATA PREP:
+@app.callback(
+    [Output('performance-bar-chart', 'figure'),
+     Output('team-goals-heatmap', 'figure')],
+    [Input('metric-dropdown', 'value')]
+)
+def update_graphs(selected_metric):
+    '''
+        Updates the graphs based on the selected metric.
+        
+        Args:
+            selected_metric: The selected metric from the dropdown.
+        Returns:
+            Updated bar chart and heatmap figures.
+    '''
+    df_goals_agg = preprocess.calculate_goals(data)
+    bar_chart_fig = bar_chart.update_figure(df_goals_agg, selected_metric)
+    heatmap_fig = heatmap.update_figure(data, selected_metric)
+    return bar_chart_fig, heatmap_fig
 
+if __name__ == '__main__':
+    app.run_server(debug=True)
 
-# VIS 4
-vis4_data_bar_chart = prep_data_vis4()
-fig4 = vis4_goal_diff.init_figure()
-print(fig4)
-fig4 = vis4_goal_diff.draw(fig4, vis4_data_bar_chart)
-
-# VIS 5
-fig5 = prep_data_vis5()
-
-# TOTAL LAYOUT
-app.layout = init_app_layout(fig4, fig5)
