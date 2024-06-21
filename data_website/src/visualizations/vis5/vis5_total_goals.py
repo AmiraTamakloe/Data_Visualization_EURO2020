@@ -1,7 +1,4 @@
-import pandas as pd
 import plotly.express as px
-
-
 
 def draw_figure(sorted_goals):
     # filter top 10 matches by total goals

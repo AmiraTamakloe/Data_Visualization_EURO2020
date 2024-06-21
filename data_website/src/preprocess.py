@@ -64,3 +64,23 @@ def calculate_goals(df):
     # Group by team and calculate total and average goals
     df_goals_agg = df_goals.groupby('Team').agg(TotalGoals=('Goals', 'sum'), AvgGoals=('Goals', 'mean')).reset_index()
     return df_goals_agg
+
+
+def vis5_get_total_goals(df_match_info):
+    # convert 'DateandTimeCET' to datetime
+    df_match_info['DateandTimeCET'] = pd.to_datetime(df_match_info['DateandTimeCET'])
+
+    # group by MatchID and calculate total goals for each match
+    df_match_info['TotalGoals'] = df_match_info['ScoreHome'] + df_match_info['ScoreAway']
+    total_goals = df_match_info.groupby(['MatchID', 'HomeTeamName', 'AwayTeamName']).agg({'TotalGoals':'max'}).reset_index()
+
+    # sort by total goals in descending order
+    sorted_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
+    return sorted_goals
+
+def vis7_get_outcome_percentage(df):
+    # calculating match outcome
+    df['Outcome'] = df.apply(lambda row: 'Win' if row['ScoreHome'] > row['ScoreAway'] else ('Draw' if row['ScoreHome'] == row['ScoreAway'] else 'Loss'), axis=1)
+    # transforming the outcome into percentage
+    outcome_percentage = df['Outcome'].value_counts(normalize=True) * 100
+    return outcome_percentage

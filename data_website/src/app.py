@@ -13,6 +13,39 @@ import barchart
 
 # Load the CSV file into a DataFrame
 DF_Data = pd.read_csv('project_data.csv')
+import preprocess
+from visualizations.vis4 import vis4_goal_diff
+from visualizations.vis5 import vis5_total_goals
+from visualizations.vis7 import vis7_outcome_percentage
+
+app = dash.Dash(__name__)
+app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
+df = pd.read_csv('./src/assets/data/project_data.csv')
+
+def prep_data_vis4():
+    '''
+        Imports the .csv file and does some preprocessing.
+
+        Returns:
+            A pandas dataframe containing the preprocessed data.
+    '''
+    df = pd.read_csv('./src/assets/data/project_data.csv')
+    df_filtered  = preprocess.drop_useless_columns(df)
+    match_df = preprocess.get_statistics(df_filtered)
+
+    return match_df
+
+def prep_data_vis5():
+    sorted_goals = preprocess.vis5_get_total_goals(df)
+    goals_df = vis5_total_goals.draw_figure(sorted_goals)
+
+    return goals_df
+
+def prep_data_vis7():
+    outcome_percentage = preprocess.vis7_get_outcome_percentage(df)
+    outcome_df = vis7_outcome_percentage.draw_figure(outcome_percentage)
+
+    return outcome_df
 
 
 # Process the data
@@ -25,3 +58,89 @@ fig = barchart.DrawBarChart(italic_country_names, win_loss_record)
 
 # Optionally, show the figure
 fig.show()
+# TODO: add 5-6 parameters for this function
+def init_app_layout(vis4, vis5, vis7):
+    '''
+        Generates the HTML layout representing the app.
+
+        Args:
+            figure: The figure to display.
+        Returns:
+            The HTML structure of the app's web page.
+    '''
+    return html.Div(className='content', children=[
+        html.Header(children=[
+            html.H1('Euro 2020 Data Analysis'),
+        ]),
+        html.Main(children=[
+            dcc.Tabs([
+                dcc.Tab(label='Goals Difference', children=[
+                    html.Div(className='viz-container', children=[
+                        dcc.Graph(
+                            figure=vis4,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis4-goal-diff-chart'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Total Goals', children=[
+                    html.Div(className='viz-container', children=[
+                        dcc.Graph(
+                            figure=vis5,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis5-total-goals-chart'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Match Outcome', children=[
+                    html.Div(className='viz-container', children=[
+                        dcc.Graph(
+                            figure=vis7,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis7-match-outcome'
+                        )
+                    ]),
+                ])
+            ])
+        ]),
+    ])
+
+
+# DATA PREP:
+
+
+# VIS 4
+vis4_data_bar_chart = prep_data_vis4()
+fig4 = vis4_goal_diff.init_figure()
+print(fig4)
+fig4 = vis4_goal_diff.draw(fig4, vis4_data_bar_chart)
+
+# VIS 5
+fig5 = prep_data_vis5()
+
+# VIS 7
+fig7 = prep_data_vis7()
+
+# TOTAL LAYOUT
+app.layout = init_app_layout(fig4, fig5, fig7)
