@@ -27,7 +27,7 @@ def prep_data():
             A pandas dataframe containing the preprocessed data.
     '''
     # Load the dataset
-    df = pd.read_csv(r'C:\Users\14389\OneDrive\Desktop\project_data.csv')
+    df = pd.read_csv('project_data.csv')
     # Drop unnecessary columns
     df_filtered = preprocess.drop_useless_columns(df)
     # Get match statistics
