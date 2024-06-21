@@ -7,12 +7,14 @@ Original file is located at
     https://colab.research.google.com/drive/13T_XcGkL6sIbtiEXEVW99UCFy8riCvNI
 """
 
+import html
 import pandas as pd
 import prepprocess
 import barchart
+import dash
 
 # Load the CSV file into a DataFrame
-DF_Data = pd.read_csv('project_data.csv')
+DF_Data = pd.read_csv('./src/assets/data/project_data.csv')
 import preprocess
 from visualizations.vis4 import vis4_goal_diff
 from visualizations.vis5 import vis5_total_goals
