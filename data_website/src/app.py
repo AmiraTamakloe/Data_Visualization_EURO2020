@@ -15,12 +15,13 @@ from dash import dcc
 
 import pandas as pd
 import preprocess
-import bar_chart
+from visualizations.vis4 import vis4_goal_diff
+from visualizations.vis5 import vis5_total_goals
 
 app = dash.Dash(__name__)
 app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
 
-def prep_data():
+def prep_data_vis4():
     '''
         Imports the .csv file and does some preprocessing.
 
@@ -33,8 +34,16 @@ def prep_data():
 
     return match_df
 
+def prep_data_vis5():
+    df_match_info = pd.read_csv('./src/assets/data/project_data.csv')
+    sorted_goals = preprocess.vis5_get_total_goals(df_match_info)
+    goals_df = vis5_total_goals.draw_figure(sorted_goals)
 
-def init_app_layout(figure):
+    return goals_df
+
+
+# TODO: add 5-6 parameters for this function
+def init_app_layout(vis4_goals, vis5_goals):
     '''
         Generates the HTML layout representing the app.
 
@@ -50,7 +59,7 @@ def init_app_layout(figure):
         html.Main(children=[
             html.Div(className='viz-container', children=[
                 dcc.Graph(
-                    figure=figure,
+                    figure=vis4_goals,
                     config=dict(
                         scrollZoom=False,
                         showTips=False,
@@ -61,14 +70,37 @@ def init_app_layout(figure):
                     className='graph',
                     id='line-chart'
                 )
-            ])
+            ]),
+            # todo: add kids
+            html.Div(className='viz-container', children=[
+                dcc.Graph(
+                    figure=vis5_goals,
+                    config=dict(
+                        scrollZoom=False,
+                        showTips=False,
+                        showAxisDragHandles=False,
+                        doubleClick=False,
+                        displayModeBar=False
+                    ),
+                    className='graph',
+                    id='line-chart'
+                )
+            ]),
         ]),
     ])
 
 
+# DATA PREP:
 
-data = prep_data()
-fig = bar_chart.init_figure()
-print(fig)
-fig = bar_chart.draw(fig, data)
-app.layout = init_app_layout(fig)
+
+# VIS 4
+vis4_data_bar_chart = prep_data_vis4()
+fig4 = vis4_goal_diff.init_figure()
+print(fig4)
+fig4 = vis4_goal_diff.draw(fig4, vis4_data_bar_chart)
+
+# VIS 5
+fig5 = prep_data_vis5()
+
+# TOTAL LAYOUT
+app.layout = init_app_layout(fig4, fig5)

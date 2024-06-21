@@ -1,0 +1,3 @@
+{
+  "python.analysis.extraPaths": ["./data_website/src/visualizations/vis4"]
+}

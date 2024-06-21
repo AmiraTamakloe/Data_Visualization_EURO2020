@@ -49,3 +49,16 @@ def get_statistics(df):
     result_df['Goal_Difference'] = result_df['Goal_Scored'] - result_df['Goal_Conceded']
     result_df = result_df.sort_values(by='Goal_Difference', ascending=True)
     return result_df
+
+
+def vis5_get_total_goals(df_match_info):
+    # convert 'DateandTimeCET' to datetime
+    df_match_info['DateandTimeCET'] = pd.to_datetime(df_match_info['DateandTimeCET'])
+
+    # group by MatchID and calculate total goals for each match
+    df_match_info['TotalGoals'] = df_match_info['ScoreHome'] + df_match_info['ScoreAway']
+    total_goals = df_match_info.groupby(['MatchID', 'HomeTeamName', 'AwayTeamName']).agg({'TotalGoals':'max'}).reset_index()
+
+    # sort by total goals in descending order
+    sorted_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
+    return sorted_goals
