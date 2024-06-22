@@ -40,8 +40,6 @@ def draw(fig, data):
     '''
 
     fig = go.Figure(fig)
-    print('DATAAAAA')
-    print(data)
     countries = data['Country'].unique()
     
     for country in countries:
@@ -56,7 +54,7 @@ def draw(fig, data):
             y=y_values,
             name=country,
             customdata=[(goals_scored, goals_conceded)],
-            hovertemplate="<b>%{x}</b><br>Goal Difference: %{y}<br>Goals Scored: %{customdata[0]}<br>Goals Conceded: %{customdata[1]}",
+            hovertemplate="<b>%{x}</b><br>Goal Difference: %{y}<br>Goals Scored: %{customdata[0]}<br>Goals Conceded: %{customdata[1]}]}<extra></extra>",
             marker_line_color='black',
             marker_line_width=1.5
         ))

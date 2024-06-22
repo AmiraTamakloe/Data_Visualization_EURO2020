@@ -19,6 +19,7 @@ import pandas as pd
 import barchart
 
 import preprocess
+import descriptions
 from visualizations.vis4 import vis4_goal_diff
 from visualizations.vis5 import vis5_total_goals
 from visualizations.vis6 import win_loss_outcome
@@ -76,6 +77,125 @@ def prep_data_vis7(df):
 
 # TODO: add 5-6 parameters for this function
 def init_app_layout(vis4, vis5, vis6, vis7):
+    '''
+        Generates the HTML layout representing the app.
+
+        Args:
+            figure: The figure to display.
+        Returns:
+            The HTML structure of the app's web page.
+    '''
+    return html.Div(className='content', children=[
+        html.Header(children=[
+            html.H1('Euro 2020 Data Analysis'),
+        ]),
+        html.Main(children=[
+            dcc.Tabs([
+                dcc.Tab(label='Goals Difference',
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',
+                    children=[
+                    html.Div(className='viz-container', children=[
+                        html.Div([html.P(descriptions.vis4_description)], className='description'),
+                        dcc.Graph(
+                            figure=vis4,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis4-goal-diff-chart'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Total Goals',
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',
+                    children=[
+                    html.Div(className='viz-container', children=[
+                        html.Div([html.P(descriptions.vis5_description)], className='description'),
+                        dcc.Graph(
+                            figure=vis5,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis5-total-goals-chart'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Win-Loss Outcome',
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',
+                    children=[
+                    html.Div(className='viz-container', children=[
+                        html.Div([html.P(descriptions.vis6_description)], className='description'),                        
+                        dcc.Graph(
+                            figure=vis6,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis6-total-goals-chart'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Match Outcome', 
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',                    
+                    children=[
+                    html.Div(className='viz-container',
+                    children=[
+                        html.Div([html.P(descriptions.vis7_description)], className='description'),                        
+                        dcc.Graph(
+                            figure=vis7,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis7-match-outcome'
+                        )
+                    ]),
+                ]),
+                dcc.Tab(label='Match Comparison', 
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',
+                    children=[
+                    html.Div(children=[
+                        dbc.Row([
+                            dbc.Col(),
+                            dbc.Col(html.H1('A Visualization of Gaming Results'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
+                            html.Div([html.P(descriptions.vis2_vis3_description)], className='description'),
+                        ]),
+                        dbc.Row([
+                            dbc.Col(sidebar),
+                            dbc.Col(dcc.Graph(id='score-graph'), width=9, align='center', style = {'margin-top':'3px'})
+                        ]),
+                        dbc.Row([
+                            dbc.Col(),
+                            dbc.Col(dcc.Graph(id='match_stats'),width=9, align='center', style={'margin-top': '3px'})
+                        ])
+                    ])
+                ]),
+            ])
+        ]),
+    ])
+
     '''
         Generates the HTML layout representing the app.
 
