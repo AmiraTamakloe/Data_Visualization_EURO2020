@@ -32,8 +32,10 @@ server = app.server
 app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
 
 base_path = os.path.dirname(__file__)
-file_path = os.path.join(base_path, 'assets/data/project_data.csv')
-df = pd.read_csv(file_path)
+match_info_path = os.path.join(base_path, 'assets/data/match_info.csv')
+df = pd.read_csv(match_info_path)
+
+df_comparison = pd.read_csv('./src/assets/data/match_comp_stats.csv')
 
 def prep_data_vis4(df):
     '''
@@ -224,8 +226,6 @@ def update_match_stats(selected_match, selected_round):
 
 # DATA PREP:
 
-df = pd.read_csv('./src/assets/data/project_data.csv')
-df_comparison = pd.read_csv('./src/assets/data/data_match_comp.csv')
 
 # VIS 4
 vis4_data_bar_chart = prep_data_vis4(df)
