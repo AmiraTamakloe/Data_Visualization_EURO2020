@@ -20,6 +20,7 @@ import barchart
 
 import preprocess
 import descriptions
+from visualizations.vis2_3 import tactics_info
 from visualizations.vis4 import vis4_goal_diff
 from visualizations.vis5 import vis5_total_goals
 from visualizations.vis6 import win_loss_outcome
@@ -196,157 +197,11 @@ def init_app_layout(vis4, vis5, vis6, vis7):
         ]),
     ])
 
-    '''
-        Generates the HTML layout representing the app.
-
-        Args:
-            figure: The figure to display.
-        Returns:
-            The HTML structure of the app's web page.
-    '''
-    return html.Div(className='content', children=[
-        html.Header(children=[
-            html.H1('Euro 2020 Data Analysis'),
-        ]),
-        html.Main(children=[
-            dcc.Tabs([
-                dcc.Tab(label='Goals Difference', children=[
-                    html.Div(className='viz-container', children=[
-                        dcc.Graph(
-                            figure=vis4,
-                            config=dict(
-                                scrollZoom=False,
-                                showTips=False,
-                                showAxisDragHandles=False,
-                                doubleClick=False,
-                                displayModeBar=False
-                            ),
-                            className='graph',
-                            id='vis4-goal-diff-chart'
-                        )
-                    ]),
-                ]),
-                dcc.Tab(label='Total Goals', children=[
-                    html.Div(className='viz-container', children=[
-                        dcc.Graph(
-                            figure=vis5,
-                            config=dict(
-                                scrollZoom=False,
-                                showTips=False,
-                                showAxisDragHandles=False,
-                                doubleClick=False,
-                                displayModeBar=False
-                            ),
-                            className='graph',
-                            id='vis5-total-goals-chart'
-                        )
-                    ]),
-                ]),
-                dcc.Tab(label='Win-Loss Outcome', children=[
-                    html.Div(className='viz-container', children=[
-                        dcc.Graph(
-                            figure=vis6,
-                            config=dict(
-                                scrollZoom=False,
-                                showTips=False,
-                                showAxisDragHandles=False,
-                                doubleClick=False,
-                                displayModeBar=False
-                            ),
-                            className='graph',
-                            id='vis6-total-goals-chart'
-                        )
-                    ]),
-                ]),
-                dcc.Tab(label='Match Outcome', children=[
-                    html.Div(className='viz-container', children=[
-                        dcc.Graph(
-                            figure=vis7,
-                            config=dict(
-                                scrollZoom=False,
-                                showTips=False,
-                                showAxisDragHandles=False,
-                                doubleClick=False,
-                                displayModeBar=False
-                            ),
-                            className='graph',
-                            id='vis7-match-outcome'
-                        )
-                    ]),
-                ]),
-                dcc.Tab(label='Match Comparison', children=[
-                    html.Div(children=[
-                        dbc.Row([
-                            dbc.Col(),
-                            dbc.Col(html.H1('A Visualization of Gaming Results'), width=9, style={'text-align': 'center', 'margin-top': '7px'})
-                        ]),
-                        dbc.Row([
-                            dbc.Col(sidebar),
-                            dbc.Col(dcc.Graph(id='score-graph'), width=9, align='center', style = {'margin-top':'3px'})
-                        ]),
-                        dbc.Row([
-                            dbc.Col(),
-                            dbc.Col(dcc.Graph(id='match_stats'),width=9, align='center', style={'margin-top': '3px'})
-                        ])
-                    ])
-                ]),
-            ])
-        ]),
-    ])
-
-# Callbacks
-@app.callback(
-    Output('match-dropdown', 'options'),
-    Input('roundname-dropdown', 'value')
-)
-def set_match_options(selected_round):
-    if selected_round is None:
-        return []
-
-    filtered_df = df_comparison[df_comparison['RoundName'] == selected_round]
-    matches = filtered_df[['HomeTeamName', 'AwayTeamName']].drop_duplicates()
-    match_options = [{'label': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}", 'value': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}"} for _, row in matches.iterrows()]
-    return match_options
-
-@app.callback(Output('score-graph', 'style'), [Input('match-dropdown','value'), Input('roundname-dropdown', 'value')])
-def hide_score_graph(input1, input2):
-    if input1 is not None and input2 is not None:
-        return {'display':'block'}
-    else:
-        return {'display':'none'}
-    
-# create update figure for gaimng results
-@app.callback(
-    Output('score-graph', 'figure'),
-    Input('match-dropdown', 'value'),
-    Input('roundname-dropdown', 'value')
-)
-
-def update_score_graph(selected_match, selected_round):
-    return match_comp.update_score_graph(selected_match, selected_round, df_comparison)
-
-@app.callback(Output('match_stats', 'style'), [Input('match-dropdown','value'), Input('roundname-dropdown', 'value')])
-def hide_match_stats_graph(input1, input2):
-    if input1 is not None and input2 is not None:
-        return {'display':'block'}
-    else:
-        return {'display':'none'}
-    
-## match_stats_fig
-## figure 2 - match bar chart
-@app.callback(
-    Output('match_stats', 'figure'),
-    Input('match-dropdown', 'value'),
-    Input('roundname-dropdown', 'value')
-)
-
-def update_match_stats(selected_match, selected_round):
-    return match_comp.update_match_stats(selected_match, selected_round, df_comparison)
-
-
 
 # DATA PREP:
 
+# VIS 2-3
+tactics_info.register_callbacks(app, df_comparison)
 
 # VIS 4
 vis4_data_bar_chart = prep_data_vis4(df)
