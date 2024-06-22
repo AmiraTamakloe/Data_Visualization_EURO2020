@@ -213,6 +213,9 @@ def hide_match_stats_graph(input1, input2):
 
 def update_match_stats(selected_match, selected_round):
     return match_comp.update_match_stats(selected_match, selected_round, df_comparison)
+
+
+
 # DATA PREP:
 
 df = pd.read_csv('./src/assets/data/project_data.csv')
