@@ -35,7 +35,8 @@ base_path = os.path.dirname(__file__)
 match_info_path = os.path.join(base_path, 'assets/data/match_info.csv')
 df = pd.read_csv(match_info_path)
 
-df_comparison = pd.read_csv('./src/assets/data/match_comp_stats.csv')
+match_comp_path = os.path.join(base_path, 'assets/data/match_comp_stats.csv')
+df_comparison = pd.read_csv(match_comp_path)
 
 def prep_data_vis4(df):
     '''
