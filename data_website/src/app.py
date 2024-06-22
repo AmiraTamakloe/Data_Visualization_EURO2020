@@ -63,8 +63,7 @@ def prep_data_vis7(df):
 
     return outcome_df
 
-# Optionally, show the figure
-# fig.show()
+
 # TODO: add 5-6 parameters for this function
 def init_app_layout(vis4, vis5, vis6, vis7):
     '''
