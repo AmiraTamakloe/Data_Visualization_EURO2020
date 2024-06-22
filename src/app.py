@@ -8,6 +8,7 @@ Original file is located at
 """
 
 import dash
+import os
 from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
@@ -29,7 +30,10 @@ app = dash.Dash(__name__)
 server = app.server
 
 app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
-df = pd.read_csv('./src/assets/data/project_data.csv')
+
+base_path = os.path.dirname(__file__)
+file_path = os.path.join(base_path, 'assets/data/project_data.csv')
+df = pd.read_csv(file_path)
 
 def prep_data_vis4(df):
     '''
