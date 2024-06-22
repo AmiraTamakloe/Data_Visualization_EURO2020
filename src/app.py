@@ -25,6 +25,9 @@ from visualizations.vis7 import vis7_outcome_percentage
 from visualizations.match_comp import match_comp
 
 app = dash.Dash(__name__)
+# This line is needed for deployment
+server = app.server
+
 app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
 df = pd.read_csv('./src/assets/data/project_data.csv')
 
