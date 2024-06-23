@@ -20,8 +20,10 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
     
         bar_chart_fig.update_traces(
             hovertemplate='<b>Team: %{x}</b><br>' + 
-                        ('AvgGoals: %{y:.2f}' if selected_metric == 'AvgGoals' else 'TotalGoals: %{y}')
+                        ('Average Goals: %{y:.2f}' if selected_metric == 'AvgGoals' else 'Total Goals: %{y}')
         )
+        color_legend_title = 'Average Goals' if selected_metric == 'AvgGoals' else 'Total Goals'
+        bar_chart_fig.update_coloraxes(colorbar_title=color_legend_title)
 
         # Heatmap for total goals or average goals
         if selected_metric == 'TotalGoals':
@@ -29,7 +31,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             color_label = "Total Goals"
         else:
             heatmap_data = df_goals.pivot(index='Team', columns='MatchNumber', values='Goals').fillna(0) / df_goals['MatchNumber'].max()
-            color_label = "AvgGoals"
+            color_label = "Average Goals"
         
         heatmap_fig = px.imshow(heatmap_data, 
                                 labels=dict(x="Match Number", y="Teams", color=color_label),
@@ -63,7 +65,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             trace.hovertemplate = (
                 'Team: %{y}<br>' +
                 'Match Number: %{x}<br>' +
-                ('AvgGoals: %{z:.2f}<br>' if selected_metric == 'AvgGoals' else 'TotalGoals: %{z}<br>') +
+                ('Average Goals: %{z:.2f}<br>' if selected_metric == 'AvgGoals' else 'Total Goals: %{z}<br>') +
                 'Match: %{customdata}<extra></extra>'
             )
 

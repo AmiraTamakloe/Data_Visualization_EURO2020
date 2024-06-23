@@ -70,6 +70,7 @@ button:active {
   flex-direction: column;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 0 100px;
   background-color: darkseagreen;
   margin: 20px;
@@ -119,7 +120,7 @@ button:active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.description p {
+.description h5 {
   margin: 5px;
   line-height: 1.5;
 }
@@ -149,7 +150,7 @@ button:active {
   border-left: 0px !important;
   border-right: 0px !important;
   border-bottom: 0px !important;
-  background-color: #b1f6f5;
+  background-color: #d2f6f6 !important;
   padding: 12px !important;
   font-family: 'Courier', 'serif';
   font-size: 16px;
@@ -161,6 +162,7 @@ button:active {
 .custom-tab--selected {
   color: black;
   font-family: 'Courier', 'serif';
+  background-color: #b1f6f5 !important;
   box-shadow: 1px 1px 0px white;
   border-left: 1px solid lightgrey !important;
   border-right: 1px solid lightgrey !important;

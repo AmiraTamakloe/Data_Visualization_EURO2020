@@ -6,8 +6,15 @@ def draw_figure(outcome_percentage):
         values=outcome_percentage,
         names=outcome_percentage.index,
         title='Percentage of EURO 2020 Matches Outcome for Home Team',
-        labels={'label': 'Outcome', 'value': 'Percentage'},
         hole=0.3
 )
-
+    fig.update_traces(
+        hovertemplate='<b>%{label}</b><br>Percentage: %{percent}',
+        )
+    fig.update_layout(
+        legend=dict(
+            itemclick=False,
+            itemdoubleclick=False
+        )
+    )
     return fig

@@ -10,6 +10,9 @@ def draw_figure(sorted_goals):
                 orientation='h', 
                 title='Top EURO 2020 Matches by Total Goals Scored',
                 labels={'TotalGoals': 'Total Goals', 'y': 'Match'},
-                height=600)
+                height=600,
+                color='TotalGoals',
+                color_continuous_scale='YlOrRd',
+                )
 
     return fig
