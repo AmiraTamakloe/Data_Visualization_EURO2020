@@ -82,27 +82,6 @@ def calculate_goals(df):
     df_goals_agg = df_goals.groupby('Team').agg(TotalGoals=('Goals', 'sum'), AvgGoals=('Goals', 'mean')).reset_index()
     return df_goals_agg
 
-
-def vis5_get_total_goals(df_match_info):
-    # convert 'DateandTimeCET' to datetime
-    df_match_info['DateandTimeCET'] = pd.to_datetime(df_match_info['DateandTimeCET'])
-
-    # group by MatchID and calculate total goals for each match
-    df_match_info['TotalGoals'] = df_match_info['ScoreHome'] + df_match_info['ScoreAway']
-    total_goals = df_match_info.groupby(['MatchID', 'HomeTeamName', 'AwayTeamName']).agg({'TotalGoals':'max'}).reset_index()
-
-    # sort by total goals in descending order
-    sorted_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
-    return sorted_goals
-
-def vis7_get_outcome_percentage(df):
-    # calculating match outcome
-    df['Outcome'] = df.apply(lambda row: 'Win' if row['ScoreHome'] > row['ScoreAway'] else ('Draw' if row['ScoreHome'] == row['ScoreAway'] else 'Loss'), axis=1)
-    # transforming the outcome into percentage
-    outcome_percentage = df['Outcome'].value_counts(normalize=True) * 100
-    return outcome_percentage
-
-
 def vis1_get_goals_data(df):
 
     print(df.head())
@@ -125,3 +104,32 @@ def vis1_get_goals_data(df):
     df_goals_agg = df_goals.groupby('Team').agg(TotalGoals=('Goals', 'sum'), AvgGoals=('Goals', 'mean')).reset_index()
 
     return df_goals_agg, df_goals, df_matches_info
+
+
+def vis5_get_total_goals(df_match_info):
+    # convert 'DateandTimeCET' to datetime
+    df_match_info['DateandTimeCET'] = pd.to_datetime(df_match_info['DateandTimeCET'])
+
+    # group by MatchID and calculate total goals for each match
+    df_match_info['TotalGoals'] = df_match_info['ScoreHome'] + df_match_info['ScoreAway']
+    total_goals = df_match_info.groupby(['MatchID', 'HomeTeamName', 'AwayTeamName']).agg({'TotalGoals':'max'}).reset_index()
+
+    # sort by total goals in descending order
+    sorted_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
+    return sorted_goals
+
+def vis7_get_outcome_percentage(df):
+    # calculating match outcome
+    df['Outcome'] = df.apply(lambda row: 'Win' if row['ScoreHome'] > row['ScoreAway'] else ('Draw' if row['ScoreHome'] == row['ScoreAway'] else 'Loss'), axis=1)
+    # transforming the outcome into percentage
+    outcome_percentage = df['Outcome'].value_counts(normalize=True) * 100
+    return outcome_percentage
+
+def vis8_get_filtered_events(df):
+    bins = [0, 15, 30, 45, 60, 75, 90]
+    labels = ['0-15', '15-30', '30-45', '45-60', '60-75', '75-90']
+    df['TimeInterval'] = pd.cut(df['Minute'], bins=bins, labels=labels, right=False)
+    heatmap_data = df.groupby(['Event', 'TimeInterval']).size().unstack(fill_value=0)
+    heatmap_data = heatmap_data.loc[(heatmap_data != 0).any(axis=1)]
+    
+    return heatmap_data

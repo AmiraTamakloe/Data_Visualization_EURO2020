@@ -26,6 +26,7 @@ from visualizations.vis4 import vis4_goal_diff
 from visualizations.vis5 import vis5_total_goals
 from visualizations.vis6 import win_loss_outcome
 from visualizations.vis7 import vis7_outcome_percentage
+from visualizations.vis8 import match_events
 from visualizations.match_comp import match_comp
 
 app = dash.Dash(__name__)
@@ -41,6 +42,10 @@ df = pd.read_csv(match_info_path)
 match_comp_path = os.path.join(base_path, 'assets/data/match_comp_stats.csv')
 df_comparison = pd.read_csv(match_comp_path)
 
+match_events_path = os.path.join(base_path, 'assets/data/matcha_event_data.csv')
+df_match_events = pd.read_csv(match_events_path)
+
+
 def prep_data_vis4(df):
     '''
         Imports the .csv file and does some preprocessing.
@@ -51,7 +56,6 @@ def prep_data_vis4(df):
     df_filtered  = preprocess.drop_useless_columns(df)
     match_df = preprocess.get_statistics(df_filtered)
     
-
     return match_df
 
 def prep_data_vis5(df):
@@ -76,9 +80,12 @@ def prep_data_vis7(df):
 
     return outcome_df
 
+def prep_data_vis8(df):
+    return preprocess.vis8_get_filtered_events(df)
+
 
 # TODO: add 5-6 parameters for this function
-def init_app_layout(vis4, vis5, vis6, vis7):
+def init_app_layout(vis4, vis5, vis6, vis7, vis8):
     '''
         Generates the HTML layout representing the app.
 
@@ -212,6 +219,27 @@ def init_app_layout(vis4, vis5, vis6, vis7):
                         ])
                     ])
                 ]),
+                dcc.Tab(label='Match Events', 
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',                    
+                    children=[
+                    html.Div(className='viz-container',
+                    children=[
+                        html.Div([html.P(descriptions.vis7_description)], className='description'),                        
+                        dcc.Graph(
+                            figure=vis8,
+                            config=dict(
+                                scrollZoom=False,
+                                showTips=False,
+                                showAxisDragHandles=False,
+                                doubleClick=False,
+                                displayModeBar=False
+                            ),
+                            className='graph',
+                            id='vis8-match-events'
+                        )
+                    ]),
+                ]),
             ])
         ]),
     ])
@@ -221,7 +249,7 @@ def init_app_layout(vis4, vis5, vis6, vis7):
 
 # VIS 1
 df_goals_agg, df_goals, df_matches_info = preprocess.vis1_get_goals_data(df)
-fig1 = total_average_goals.register_callbacks(app, df_goals_agg, df_goals, df_matches_info)
+total_average_goals.register_callbacks(app, df_goals_agg, df_goals, df_matches_info)
 
 # VIS 2-3
 tactics_info.register_callbacks(app, df_comparison)
@@ -240,8 +268,12 @@ fig6 = prep_data_vis6(df)
 # VIS 7
 fig7 = prep_data_vis7(df)
 
+# VIS 8
+data_vis8 = prep_data_vis8(df_match_events)
+fig8 = match_events.show_heatmap(data_vis8)
+
 # Sidebar
 sidebar = match_comp.create_sidebar_layout(df_comparison)
 
 # TOTAL LAYOUT
-app.layout = init_app_layout(fig4, fig5, fig6, fig7)
+app.layout = init_app_layout(fig4, fig5, fig6, fig7, fig8)
