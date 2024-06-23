@@ -101,3 +101,27 @@ def vis7_get_outcome_percentage(df):
     # transforming the outcome into percentage
     outcome_percentage = df['Outcome'].value_counts(normalize=True) * 100
     return outcome_percentage
+
+
+def vis1_get_goals_data(df):
+
+    print(df.head())
+    print(df.columns)
+
+    # Extract relevant match information
+    df_matches_info = df[['HomeTeamName', 'AwayTeamName', 'DateandTimeCET', 'MatchID', 'RoundName', 'ScoreHome', 'ScoreAway', 'Event', 'Time']]
+
+    # Create a new column for the match number
+    df_matches_info['MatchNumber'] = df_matches_info.groupby('MatchID').ngroup() + 1
+
+    df_home = df_matches_info[['MatchNumber', 'HomeTeamName', 'ScoreHome', 'MatchID']].rename(columns={'HomeTeamName': 'Team', 'ScoreHome': 'Goals'})
+    df_away = df_matches_info[['MatchNumber', 'AwayTeamName', 'ScoreAway', 'MatchID']].rename(columns={'AwayTeamName': 'Team', 'ScoreAway': 'Goals'})
+    df_goals = pd.concat([df_home, df_away])
+
+    # Remove duplicate entries
+    df_goals = df_goals.drop_duplicates(subset=['MatchNumber', 'Team'])
+
+    # Calculate total and average goals for each team
+    df_goals_agg = df_goals.groupby('Team').agg(TotalGoals=('Goals', 'sum'), AvgGoals=('Goals', 'mean')).reset_index()
+
+    return df_goals_agg, df_goals, df_matches_info

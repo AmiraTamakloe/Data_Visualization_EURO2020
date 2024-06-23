@@ -20,6 +20,7 @@ import barchart
 
 import preprocess
 import descriptions
+from visualizations.vis1 import total_average_goals
 from visualizations.vis2_3 import tactics_info
 from visualizations.vis4 import vis4_goal_diff
 from visualizations.vis5 import vis5_total_goals
@@ -92,6 +93,24 @@ def init_app_layout(vis4, vis5, vis6, vis7):
         ]),
         html.Main(children=[
             dcc.Tabs([
+                dcc.Tab(label='Average Total Goals', 
+                    className='custom-tab',
+                    selected_className='custom-tab--selected',
+                    children=[
+                    html.Div([
+                        dcc.Dropdown(
+                            id='metric-dropdown',
+                            options=[
+                                {'label': 'Total Goals', 'value': 'TotalGoals'},
+                                {'label': 'Average Goals', 'value': 'AvgGoals'}
+                            ],
+                            value='TotalGoals',
+                            style={'width': '50%'}
+                        ),
+                        dcc.Graph(id='performance-bar-chart'),
+                        dcc.Graph(id='team-goals-heatmap')
+                    ])
+                ]),
                 dcc.Tab(label='Goals Difference',
                     className='custom-tab',
                     selected_className='custom-tab--selected',
@@ -199,6 +218,10 @@ def init_app_layout(vis4, vis5, vis6, vis7):
 
 
 # DATA PREP:
+
+# VIS 1
+df_goals_agg, df_goals, df_matches_info = preprocess.vis1_get_goals_data(df)
+fig1 = total_average_goals.register_callbacks(app, df_goals_agg, df_goals, df_matches_info)
 
 # VIS 2-3
 tactics_info.register_callbacks(app, df_comparison)
