@@ -105,6 +105,11 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     selected_className='custom-tab--selected',
                     children=[
                     html.Div([
+                        dbc.Row([
+                            dbc.Col(),
+                            # dbc.Col(html.H1('A Visualization of Average/Total Goals'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
+                            html.Div([html.P(descriptions.vis1_description)], className='description'),
+                        ]),
                         dcc.Dropdown(
                             id='metric-dropdown',
                             options=[
@@ -206,7 +211,7 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     html.Div(children=[
                         dbc.Row([
                             dbc.Col(),
-                            dbc.Col(html.H1('A Visualization of Gaming Results'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
+                            # dbc.Col(html.H1('A Visualization of Gaming Results'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
                             html.Div([html.P(descriptions.vis2_vis3_description)], className='description'),
                         ]),
                         dbc.Row([
@@ -225,7 +230,7 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     children=[
                     html.Div(className='viz-container',
                     children=[
-                        html.Div([html.P(descriptions.vis7_description)], className='description'),                        
+                        html.Div([html.P(descriptions.vis8_description)], className='description'),                        
                         dcc.Graph(
                             figure=vis8,
                             config=dict(
