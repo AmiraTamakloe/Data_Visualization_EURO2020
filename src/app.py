@@ -100,15 +100,18 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
         ]),
         html.Main(children=[
             dcc.Tabs([
-                dcc.Tab(label='Average Total Goals', 
+                dcc.Tab(label='Team Performance', 
                     className='custom-tab',
                     selected_className='custom-tab--selected',
                     children=[
-                    html.Div([
+                    html.Div(className='viz-container', children= [
                         dbc.Row([
                             dbc.Col(),
-                            # dbc.Col(html.H1('A Visualization of Average/Total Goals'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
-                            html.Div([html.P(descriptions.vis1_description)], className='description'),
+                            html.Div([html.H5(descriptions.vis1_description)], className='description'),
+                        ]),
+                        dbc.Row([
+                            dbc.Col(),
+                            html.Div([html.H6(descriptions.vis1_notice)], className='visualization-note'),
                         ]),
                         dcc.Dropdown(
                             id='metric-dropdown',
@@ -128,7 +131,11 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     selected_className='custom-tab--selected',
                     children=[
                     html.Div(className='viz-container', children=[
-                        html.Div([html.P(descriptions.vis4_description)], className='description'),
+                        html.Div([html.H5(descriptions.vis4_description)], className='description'),
+                        dbc.Row([
+                            dbc.Col(),
+                            html.Div([html.H6(descriptions.vis4_notice)], className='visualization-note'),
+                        ]),
                         dcc.Graph(
                             figure=vis4,
                             config=dict(
@@ -143,12 +150,12 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                         )
                     ]),
                 ]),
-                dcc.Tab(label='Total Goals',
+                dcc.Tab(label='Top Matches',
                     className='custom-tab',
                     selected_className='custom-tab--selected',
                     children=[
                     html.Div(className='viz-container', children=[
-                        html.Div([html.P(descriptions.vis5_description)], className='description'),
+                        html.Div([html.H5(descriptions.vis5_description)], className='description'),
                         dcc.Graph(
                             figure=vis5,
                             config=dict(
@@ -168,7 +175,11 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     selected_className='custom-tab--selected',
                     children=[
                     html.Div(className='viz-container', children=[
-                        html.Div([html.P(descriptions.vis6_description)], className='description'),                        
+                        html.Div([html.H5(descriptions.vis6_description)], className='description'),           
+                        dbc.Row([
+                            dbc.Col(),
+                            html.Div([html.H6(descriptions.vis6_notice)], className='visualization-note'),
+                        ]),             
                         dcc.Graph(
                             figure=vis6,
                             config=dict(
@@ -183,13 +194,13 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                         )
                     ]),
                 ]),
-                dcc.Tab(label='Match Outcome', 
+                dcc.Tab(label='Home Team Match Outcome', 
                     className='custom-tab',
                     selected_className='custom-tab--selected',                    
                     children=[
                     html.Div(className='viz-container',
                     children=[
-                        html.Div([html.P(descriptions.vis7_description)], className='description'),                        
+                        html.Div([html.H5(descriptions.vis7_description)], className='description'),                        
                         dcc.Graph(
                             figure=vis7,
                             config=dict(
@@ -204,15 +215,14 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                         )
                     ]),
                 ]),
-                dcc.Tab(label='Match Comparison', 
+                dcc.Tab(label='Strategies Comparison', 
                     className='custom-tab',
                     selected_className='custom-tab--selected',
                     children=[
-                    html.Div(children=[
+                    html.Div(className='viz-container', children=[
                         dbc.Row([
                             dbc.Col(),
-                            # dbc.Col(html.H1('A Visualization of Gaming Results'), width=9, style={'text-align': 'center', 'margin-top': '7px'}),
-                            html.Div([html.P(descriptions.vis2_vis3_description)], className='description'),
+                            html.Div([html.H5(descriptions.vis2_vis3_description)], className='description'),
                         ]),
                         dbc.Row([
                             dbc.Col(sidebar),
@@ -224,13 +234,13 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                         ])
                     ])
                 ]),
-                dcc.Tab(label='Match Events', 
+                dcc.Tab(label='Events Progression', 
                     className='custom-tab',
                     selected_className='custom-tab--selected',                    
                     children=[
                     html.Div(className='viz-container',
                     children=[
-                        html.Div([html.P(descriptions.vis8_description)], className='description'),                        
+                        html.Div([html.H5(descriptions.vis8_description)], className='description'),                        
                         dcc.Graph(
                             figure=vis8,
                             config=dict(

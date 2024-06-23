@@ -28,10 +28,10 @@ SIDEBAR_STYLE = {
 def create_sidebar_layout(df):
     sidebar = html.Div(
     [
-        html.H2("Match Statistics"),
+        html.H2("Match Strategies Comparison"),
         html.Hr(),
         html.P(
-            "Gaming Results:", className="lead"
+            "Game Round:", className="lead"
         ),
         dbc.Nav(
             [
@@ -41,6 +41,9 @@ def create_sidebar_layout(df):
                 placeholder="Select a Round",
                 ),
                 html.Br(),
+                html.P(
+                    "Match:", className="lead"
+                ),
                 dcc.Dropdown(
                 id='match-dropdown',
                 placeholder="Select a Match",
