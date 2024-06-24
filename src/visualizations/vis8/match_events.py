@@ -16,8 +16,6 @@ def show_heatmap(heatmap_data):
         title='Event occurrences per time interval',
         xaxis_title='Time Interval (minutes)',
         yaxis_title='Event',
-        width=800,
-        height=600,
         xaxis=dict(showline=False, showgrid=False),
         yaxis=dict(showline=False, showgrid=False)
     )
