@@ -25,6 +25,9 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
         color_legend_title = 'Average Goals' if selected_metric == 'AvgGoals' else 'Total Goals'
         bar_chart_fig.update_coloraxes(colorbar_title=color_legend_title)
 
+      bar_chart_fig.update_layout(
+            xaxis_tickangle=-45  # Rotate x-axis labels by 45 degrees
+        )
         # Heatmap for total goals or average goals
         if selected_metric == 'TotalGoals':
             heatmap_data = df_goals.pivot(index='Team', columns='MatchNumber', values='Goals').fillna(0)
@@ -38,7 +41,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
                                 color_continuous_scale='Blues',
                                 title=f'{color_label} per Team per Match')
 
-        #  extracts the home team and away team for each matc
+        #  Extracts the home team and away team for each matc
         customdata = []
         for match_number in heatmap_data.columns:
             match_info = df_matches_info[df_matches_info['MatchNumber'] == match_number].iloc[0]
