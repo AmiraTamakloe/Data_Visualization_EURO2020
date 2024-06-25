@@ -23,8 +23,11 @@ def draw(fig, df_goals_agg):
     """
     fig = px.bar(df_goals_agg, x='Team', y='TotalGoals', color='TotalGoals',
                  color_continuous_scale='Blues', title='Team Performance Bar Chart')
+    fig.update_layout(
+        xaxis_tickangle=-45
+    )
     return fig
-
+    
 def update_figure(df_goals_agg, selected_metric):
     """
     Updates the bar chart based on the selected metric (Total Goals or Average Goals).
@@ -41,5 +44,8 @@ def update_figure(df_goals_agg, selected_metric):
     fig.update_traces(
         hovertemplate='<b>Team: %{x}</b><br>' +
                       ('AvgGoals: %{y:.2f}' if selected_metric == 'AvgGoals' else 'TotalGoals: %{y}')
+      )
+    fig.update_layout(
+        xaxis_tickangle=-45
     )
     return fig
