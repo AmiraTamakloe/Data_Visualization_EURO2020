@@ -63,6 +63,8 @@ def draw(fig, data):
         yaxis=dict(tickmode='linear', tick0=0, dtick=1),
         title={'text': "Goal Difference by Country", 'x': 0.5, 'xanchor': 'center'},
         xaxis_tickangle=-45,
-        template='plotly_white'
+        template='plotly_white',
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
     )
     return fig

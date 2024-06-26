@@ -46,6 +46,8 @@ def update_figure(df_goals_agg, selected_metric):
                       ('AvgGoals: %{y:.2f}' if selected_metric == 'AvgGoals' else 'TotalGoals: %{y}')
       )
     fig.update_layout(
-        xaxis_tickangle=-45
+        xaxis_tickangle=-45,
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
     )
     return fig

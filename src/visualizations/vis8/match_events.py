@@ -18,7 +18,9 @@ def show_heatmap(heatmap_data):
         yaxis_title='Event',
         height=700,
         xaxis=dict(showline=False, showgrid=False),
-        yaxis=dict(showline=False, showgrid=False)
+        yaxis=dict(showline=False, showgrid=False),
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
     )
 
     return fig

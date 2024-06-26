@@ -25,8 +25,10 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
         color_legend_title = 'Average Goals' if selected_metric == 'AvgGoals' else 'Total Goals'
         bar_chart_fig.update_coloraxes(colorbar_title=color_legend_title)
 
-      bar_chart_fig.update_layout(
-            xaxis_tickangle=-45  # Rotate x-axis labels by 45 degrees
+        bar_chart_fig.update_layout(
+            xaxis_tickangle=-45,
+            plot_bgcolor='#d2f6f6',
+            paper_bgcolor='#d2f6f6',
         )
         # Heatmap for total goals or average goals
         if selected_metric == 'TotalGoals':
@@ -77,7 +79,9 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             height=600,  # Adjust the height as needed
             margin=dict(l=0, r=0, t=30, b=30),
             xaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
-            yaxis=dict(showgrid=True, gridcolor='black', zeroline=False)
+            yaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
+            plot_bgcolor='#d2f6f6',
+            paper_bgcolor='#d2f6f6',
         )
 
         return bar_chart_fig, heatmap_fig

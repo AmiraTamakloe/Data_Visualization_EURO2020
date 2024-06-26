@@ -121,8 +121,8 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                             value='TotalGoals',
                             style={'width': '50%'}
                         ),
-                        dcc.Graph(id='performance-bar-chart'),
-                        dcc.Graph(id='team-goals-heatmap')
+                        dcc.Graph(id='performance-bar-chart', className='graph'),
+                        dcc.Graph(id='team-goals-heatmap',  className='graph')
                     ])
                 ]),
                 dcc.Tab(label='Goals Difference',
@@ -225,11 +225,11 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                         ]),
                         dbc.Row([
                             dbc.Col(sidebar),
-                            dbc.Col(dcc.Graph(id='score-graph'), width=9, align='center', style = {'margin-top':'3px'})
+                            dbc.Col(dcc.Graph(id='score-graph', className='stacked-graph'), width=9, align='center', style = {'margin-top':'3px'})
                         ]),
                         dbc.Row([
                             dbc.Col(),
-                            dbc.Col(dcc.Graph(id='match_stats'),width=9, align='center', style={'margin-top': '3px'})
+                            dbc.Col(dcc.Graph(id='match_stats', className='stacked-graph'),width=9, align='center', style={'margin-top': '3px'})
                         ])
                     ])
                 ]),

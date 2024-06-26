@@ -63,6 +63,8 @@ def DrawBarChart(italic_country_names: list, win_loss_record: pd.DataFrame) -> g
         barmode='group',
         bargap=0.4, # Increase gap between bars of adjacent location coordinates.
         bargroupgap=0.1, # Gap between bars of the same location coordinate.
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
     )
 
     return fig

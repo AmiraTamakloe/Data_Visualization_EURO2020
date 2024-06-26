@@ -59,7 +59,9 @@ def update_figure(df, selected_metric):
         height=600,
         margin=dict(l=0, r=0, t=30, b=30),
         xaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
-        yaxis=dict(showgrid=True, gridcolor='black', zeroline=False)
+        yaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
     )
 
     return fig

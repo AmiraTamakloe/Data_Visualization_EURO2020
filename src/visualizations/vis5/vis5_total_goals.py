@@ -12,7 +12,10 @@ def draw_figure(sorted_goals):
                 labels={'TotalGoals': 'Total Goals', 'y': 'Match'},
                 height=600,
                 color='TotalGoals',
-                color_continuous_scale='YlOrRd',
+                color_continuous_scale='Blues',
                 )
-
+    fig.update_layout(
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
+    )
     return fig
