@@ -43,7 +43,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
                                 color_continuous_scale='Blues',
                                 title=f'{color_label} per Team per Match')
 
-        #  Extracts the home team and away team for each matc
+        #  extracts the home team and away team for each matc
         customdata = []
         for match_number in heatmap_data.columns:
             match_info = df_matches_info[df_matches_info['MatchNumber'] == match_number].iloc[0]
