@@ -74,9 +74,15 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
                 'Match: %{customdata}<extra></extra>'
             )
 
+        bar_chart_fig.update_layout(
+            width=900,
+            autosize=False
+        )
+
         heatmap_fig.update_layout(
             autosize=False,
-            height=600,  # Adjust the height as needed
+            height=600,
+            width=900,
             margin=dict(l=0, r=0, t=30, b=30),
             xaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
             yaxis=dict(showgrid=True, gridcolor='black', zeroline=False),
