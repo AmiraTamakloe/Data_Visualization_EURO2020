@@ -73,15 +73,15 @@ def prep_data_vis6(df):
     fig = barchart.DrawBarChart(italic_country_names, win_loss_record)
 
     # Customize hover labels
-fig.update_traces(
-    selector=dict(name='Wins'),
-    hoverlabel=dict(bgcolor="#063970")
-)
+    fig.update_traces(
+        selector=dict(name='Wins'),
+        hoverlabel=dict(bgcolor="#063970")
+    )
 
-fig.update_traces(
-    selector=dict(name='Losses'),
-    hoverlabel=dict(bgcolor="#2596be", font=dict(color="black"))
-)
+    fig.update_traces(
+        selector=dict(name='Losses'),
+        hoverlabel=dict(bgcolor="#2596be", font=dict(color="black"))
+    )
     return fig
 
 def prep_data_vis7(df):

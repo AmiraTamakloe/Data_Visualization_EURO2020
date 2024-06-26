@@ -13,7 +13,7 @@ def DrawBarChart(italic_country_names: list, win_loss_record: pd.DataFrame) -> g
         x=italic_country_names,
         y=win_loss_record['Wins'],
         name='Wins',
-        marker_color='#063970'
+        marker_color='#063970',
         hovertemplate=(
             'Country: %{x}<br>' +
             'Wins: %{y}<br>' +
@@ -25,7 +25,7 @@ def DrawBarChart(italic_country_names: list, win_loss_record: pd.DataFrame) -> g
         x=italic_country_names,
         y=win_loss_record['Losses'],
         name='Losses',
-        marker_color='#2596be'
+        marker_color='#2596be',
          hovertemplate=(
             'Country: %{x}<br>' +
             'Losses: %{y}<br>' +

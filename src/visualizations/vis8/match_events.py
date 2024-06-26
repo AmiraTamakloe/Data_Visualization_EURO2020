@@ -8,7 +8,7 @@ def show_heatmap(heatmap_data):
         z=heatmap_data.values,
         x=heatmap_data.columns,
         y=heatmap_data.index,
-        colorscale='Spectral',
+        colorscale='puBu',
         hovertemplate='Number of occurrences: %{z}<extra></extra>',
         colorbar=dict(title='Number of events')
     ))
