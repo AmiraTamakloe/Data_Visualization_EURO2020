@@ -13,14 +13,24 @@ def DrawBarChart(italic_country_names: list, win_loss_record: pd.DataFrame) -> g
         x=italic_country_names,
         y=win_loss_record['Wins'],
         name='Wins',
-        marker_color='rgb(99, 110, 250)'
+        marker_color='#063970'
+        hovertemplate=(
+            'Country: %{x}<br>' +
+            'Wins: %{y}<br>' +
+            '<extra></extra>'
+        )
     ))
 
     fig.add_trace(go.Bar(
         x=italic_country_names,
         y=win_loss_record['Losses'],
         name='Losses',
-        marker_color='rgb(239, 85, 59)'
+        marker_color='#2596be'
+         hovertemplate=(
+            'Country: %{x}<br>' +
+            'Losses: %{y}<br>' +
+            '<extra></extra>'
+        )
     ))
 
     fig.update_layout(
@@ -48,8 +58,8 @@ def DrawBarChart(italic_country_names: list, win_loss_record: pd.DataFrame) -> g
             font=dict(
                 size=12,
             ),
-            bgcolor='rgba(255, 255, 255, 0)',
-            bordercolor='rgba(255, 255, 255, 0)'
+            bgcolor='#d2f6f6',
+            bordercolor='#d2f6f6'
         ),
         barmode='group',
         bargap=0.4, # Increase gap between bars of adjacent location coordinates.
