@@ -135,7 +135,7 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                             style={'width': '50%'}
                         ),
                         html.Div(
-                            style={'flex-direction': 'column', 'display': 'flex', 'align-items': 'center', 'width': '100%'}, 
+                            style={'flex-direction': 'column', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center', 'width': '100%'}, 
                             children=[
                                 dcc.Graph(id='performance-bar-chart', className='graph'),
                                 dcc.Graph(id='team-goals-heatmap',  className='graph')

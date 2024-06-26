@@ -75,6 +75,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             )
 
         bar_chart_fig.update_layout(
+            height=400,
             autosize=False
         )
 
