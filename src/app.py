@@ -103,12 +103,14 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     className='custom-tab',
                     selected_className='custom-tab--selected',
                     children=[
-                    html.Div(className='viz-container', children= [
+                    html.Div(className='viz-container', 
+                            children= [
                         dbc.Row([
                             dbc.Col(),
                             html.Div([html.H5(descriptions.vis1_description)], className='description'),
                         ]),
-                        dbc.Row([
+                        dbc.Row(
+                            children=[
                             dbc.Col(),
                             html.Div([html.H6(descriptions.vis1_notice)], className='visualization-note'),
                         ]),
@@ -121,8 +123,13 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                             value='TotalGoals',
                             style={'width': '50%'}
                         ),
-                        dcc.Graph(id='performance-bar-chart', className='graph'),
-                        dcc.Graph(id='team-goals-heatmap',  className='graph')
+                        html.Div(
+                            style={'flex-direction': 'column', 'display': 'flex', 'align-items': 'center', 'width': '100%'}, 
+                            children=[
+                                dcc.Graph(id='performance-bar-chart', className='graph'),
+                                dcc.Graph(id='team-goals-heatmap',  className='graph')
+                            ]
+                        )
                     ])
                 ]),
                 dcc.Tab(label='Goals Difference',
@@ -238,6 +245,7 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
                     selected_className='custom-tab--selected',                    
                     children=[
                     html.Div(className='viz-container',
+                    style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'},        
                     children=[
                         html.Div([html.H5(descriptions.vis8_description)], className='description'),                        
                         dcc.Graph(

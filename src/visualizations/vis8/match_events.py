@@ -19,7 +19,7 @@ def show_heatmap(heatmap_data):
         yaxis_title='Event',
         autosize=False,
         height=700,
-        width=900,
+        width=1000,
         xaxis=dict(showline=False, showgrid=False),
         yaxis=dict(showline=False, showgrid=False),
         plot_bgcolor='#d2f6f6',
