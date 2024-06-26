@@ -12,6 +12,8 @@ def register_callbacks(app, df_comparison):
         if selected_round is None:
             return []
 
+         # Capitalize the round name
+        selected_round = selected_round.capitalize() 
         filtered_df = df_comparison[df_comparison['RoundName'] == selected_round]
         matches = filtered_df[['HomeTeamName', 'AwayTeamName']].drop_duplicates()
         match_options = [{'label': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}", 'value': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}"} for _, row in matches.iterrows()]
