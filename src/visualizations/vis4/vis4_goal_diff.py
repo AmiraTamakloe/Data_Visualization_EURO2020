@@ -5,7 +5,7 @@
 
 import plotly.graph_objects as go
 import plotly.io as pio
-
+import matplotlib.colors as mcolors
 
 
 def init_figure():
@@ -41,6 +41,9 @@ def draw(fig, data):
 
     fig = go.Figure(fig)
     countries = data['Country'].unique()
+
+    blue_to_green = mcolors.LinearSegmentedColormap.from_list('blue_to_green', ['blue', 'green'])
+    norm = mcolors.Normalize(vmin=data['Goal_Difference'].min(), vmax=data['Goal_Difference'].max())
     
     for country in countries:
         country_info = data[data['Country'] == country]
@@ -48,6 +51,7 @@ def draw(fig, data):
         y_values = country_info['Goal_Difference']
         goals_scored = country_info['Goal_Scored'].values[0]
         goals_conceded = country_info['Goal_Conceded'].values[0]
+        bar_color = mcolors.to_hex(blue_to_green(norm(y_values.values[0])))
 
         fig.add_trace(go.Bar(
             x=x_values,
@@ -56,14 +60,17 @@ def draw(fig, data):
             customdata=[(goals_scored, goals_conceded)],
             hovertemplate="<b>%{x}</b><br>Goal Difference: %{y}<br>Goals Scored: %{customdata[0]}<br>Goals Conceded: %{customdata[1]}]}<extra></extra>",
             marker_line_color='black',
-            marker_line_width=1.5
+            marker_line_width=1.5,
+            marker=dict(
+                color=bar_color,
+                line=dict(color='black', width=1.5)
+            )
         ))
 
     fig.update_layout(
         yaxis=dict(tickmode='linear', tick0=0, dtick=1),
         title={'text': "Goal Difference by Country", 'x': 0.5, 'xanchor': 'center'},
         xaxis_tickangle=-45,
-        template='plotly_white',
         plot_bgcolor='#d2f6f6',
         paper_bgcolor='#d2f6f6',
     )
