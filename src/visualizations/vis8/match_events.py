@@ -9,14 +9,17 @@ def show_heatmap(heatmap_data):
         x=heatmap_data.columns,
         y=heatmap_data.index,
         colorscale='Spectral',
-        hovertemplate='Number of occurrences: %{z}<extra></extra>'
+        hovertemplate='Number of occurrences: %{z}<extra></extra>',
+        colorbar=dict(title='Number of events')
     ))
 
     fig.update_layout(
         title='Event occurrences per time interval',
         xaxis_title='Time Interval (minutes)',
         yaxis_title='Event',
+        autosize=False,
         height=700,
+        width=900,
         xaxis=dict(showline=False, showgrid=False),
         yaxis=dict(showline=False, showgrid=False)
     )
