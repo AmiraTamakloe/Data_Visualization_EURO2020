@@ -49,7 +49,7 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             match_info = df_matches_info[df_matches_info['MatchNumber'] == match_number].iloc[0]
             customdata.append((match_info['HomeTeamName'], match_info['AwayTeamName']))
 
-        
+
         customdata_matrix = []
         for team in heatmap_data.index:
             customdata_row = []

@@ -1,4 +1,3 @@
-# callbacks.py
 from visualizations.match_comp import match_comp
 from dash.dependencies import Input, Output
 
