@@ -1,7 +1,6 @@
 import plotly.express as px
 
 def draw_figure(sorted_goals):
-    # filter top 10 matches by total goals
     top_matches = sorted_goals.head(10)
 
     fig = px.bar(top_matches, 

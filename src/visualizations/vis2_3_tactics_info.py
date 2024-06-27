@@ -1,4 +1,4 @@
-from visualizations.match_comp import match_comp
+from visualizations import vis2_3_sidebar
 from dash.dependencies import Input, Output
 
 def register_callbacks(app, df_comparison):
@@ -11,8 +11,6 @@ def register_callbacks(app, df_comparison):
         if selected_round is None:
             return []
 
-         # Capitalize the round name
-        # selected_round = selected_round.capitalize() 
         filtered_df = df_comparison[df_comparison['RoundName'] == selected_round]
         matches = filtered_df[['HomeTeamName', 'AwayTeamName']].drop_duplicates()
         match_options = [{'label': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}", 'value': f"{row['HomeTeamName']} vs. {row['AwayTeamName']}"} for _, row in matches.iterrows()]
@@ -31,7 +29,7 @@ def register_callbacks(app, df_comparison):
         Input('roundname-dropdown', 'value')
     )
     def update_score_graph(selected_match, selected_round):
-        return match_comp.update_score_graph(selected_match, selected_round, df_comparison)
+        return vis2_3_sidebar.update_score_graph(selected_match, selected_round, df_comparison)
 
     @app.callback(Output('match_stats', 'style'), [Input('match-dropdown', 'value'), Input('roundname-dropdown', 'value')])
     def hide_match_stats_graph(input1, input2):
@@ -46,4 +44,4 @@ def register_callbacks(app, df_comparison):
         Input('roundname-dropdown', 'value')
     )
     def update_match_stats(selected_match, selected_round):
-        return match_comp.update_match_stats(selected_match, selected_round, df_comparison)
+        return vis2_3_sidebar.update_match_stats(selected_match, selected_round, df_comparison)

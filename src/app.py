@@ -15,37 +15,35 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 
 import pandas as pd
-import barchart
 
 import preprocess
 import descriptions
-from visualizations.vis1 import total_average_goals
-from visualizations.vis2_3 import tactics_info
-from visualizations.vis4 import vis4_goal_diff
-from visualizations.vis5 import vis5_total_goals
-from visualizations.vis6 import win_loss_outcome
-from visualizations.vis7 import vis7_outcome_percentage
-from visualizations.vis8 import match_events
-from visualizations.match_comp import match_comp
+from visualizations import vis1_total_average_goals
+from visualizations import vis2_3_tactics_info
+from visualizations import vis4_goal_diff
+from visualizations import vis5_total_goals
+from visualizations import vis6_win_loss_outcome
+from visualizations import vis7_outcome_percentage
+from visualizations import vis8_match_events
+from visualizations import vis2_3_sidebar
 
 app = dash.Dash(__name__)
-# This line is needed for deployment
 server = app.server
 
 app.title = 'Euro2020 - INF8808 - Amira Tamakloe'
 
 base_path = os.path.dirname(__file__)
 match_info_path = os.path.join(base_path, 'assets/data/match_info.csv')
-df = pd.read_csv(match_info_path)
+df_match_info = pd.read_csv(match_info_path)
 
 match_comp_path = os.path.join(base_path, 'assets/data/match_comp_stats.csv')
-df_comparison = pd.read_csv(match_comp_path)
+df_stats_comparison = pd.read_csv(match_comp_path)
 
 match_events_path = os.path.join(base_path, 'assets/data/matcha_event_data.csv')
 df_match_events = pd.read_csv(match_events_path)
 
 
-def prep_data_vis4(df):
+def display_vis4(df):
     '''
         Imports the .csv file and does some preprocessing.
 
@@ -54,25 +52,24 @@ def prep_data_vis4(df):
     '''
     df_filtered  = preprocess.drop_useless_columns(df)
     match_df = preprocess.get_statistics(df_filtered)
+    fig4 = vis4_goal_diff.init_figure()
+    fig4 = vis4_goal_diff.draw(fig4, match_df)
     
-    return match_df
+    return fig4
 
-def prep_data_vis5(df):
+def display_vis5(df):
     sorted_goals = preprocess.vis5_get_total_goals(df)
     goals_df = vis5_total_goals.draw_figure(sorted_goals)
 
     return goals_df
 
-def prep_data_vis6(df):
-    # Process the data
-    final_results = win_loss_outcome.dataProcessing(df)
-    win_loss_record = win_loss_outcome.calculateWinsLosses(final_results)
+def display_vis6(df):
+    final_results = vis6_win_loss_outcome.data_processing(df)
+    win_loss_record = vis6_win_loss_outcome.calculate_win_losses(final_results)
 
-    # Generate the chart
-    italic_country_names = barchart.MakeItalic(win_loss_record)
-    fig = barchart.DrawBarChart(italic_country_names, win_loss_record)
+    italic_country_names = vis6_win_loss_outcome.make_italic(win_loss_record)
+    fig = vis6_win_loss_outcome.draw_bar_chart(italic_country_names, win_loss_record)
 
-    # Customize hover labels
     fig.update_traces(
         selector=dict(name='Wins'),
         hoverlabel=dict(bgcolor="#063970")
@@ -84,17 +81,19 @@ def prep_data_vis6(df):
     )
     return fig
 
-def prep_data_vis7(df):
+def display_vis7(df):
     outcome_percentage = preprocess.vis7_get_outcome_percentage(df)
     outcome_df = vis7_outcome_percentage.draw_figure(outcome_percentage)
 
     return outcome_df
 
-def prep_data_vis8(df):
-    return preprocess.vis8_get_filtered_events(df)
+def display_vis8(df):
+    data_vis8 = preprocess.vis8_get_filtered_events(df)
+    fig8 = vis8_match_events.show_heatmap(data_vis8)
+    return fig8
+    
 
 
-# TODO: add 5-6 parameters for this function
 def init_app_layout(vis4, vis5, vis6, vis7, vis8):
     '''
         Generates the HTML layout representing the app.
@@ -278,35 +277,21 @@ def init_app_layout(vis4, vis5, vis6, vis7, vis8):
     ])
 
 
-# DATA PREP:
+df_goals_agg, df_goals, df_matches_info = preprocess.vis1_get_goals_data(df_match_info)
+vis1_total_average_goals.register_callbacks(app, df_goals_agg, df_goals, df_matches_info)
 
-# VIS 1
-df_goals_agg, df_goals, df_matches_info = preprocess.vis1_get_goals_data(df)
-total_average_goals.register_callbacks(app, df_goals_agg, df_goals, df_matches_info)
+vis2_3_tactics_info.register_callbacks(app, df_stats_comparison)
 
-# VIS 2-3
-tactics_info.register_callbacks(app, df_comparison)
+fig4 = display_vis4(df_match_info)
 
-# VIS 4
-vis4_data_bar_chart = prep_data_vis4(df)
-fig4 = vis4_goal_diff.init_figure()
-fig4 = vis4_goal_diff.draw(fig4, vis4_data_bar_chart)
+fig5 = display_vis5(df_match_info)
 
-# VIS 5
-fig5 = prep_data_vis5(df)
+fig6 = display_vis6(df_match_info)
 
-# VIS 6
-fig6 = prep_data_vis6(df)
+fig7 = display_vis7(df_match_info)
 
-# VIS 7
-fig7 = prep_data_vis7(df)
+fig8 = display_vis8(df_match_events)
 
-# VIS 8
-data_vis8 = prep_data_vis8(df_match_events)
-fig8 = match_events.show_heatmap(data_vis8)
+sidebar = vis2_3_sidebar.create_sidebar_layout(df_stats_comparison)
 
-# Sidebar
-sidebar = match_comp.create_sidebar_layout(df_comparison)
-
-# TOTAL LAYOUT
 app.layout = init_app_layout(fig4, fig5, fig6, fig7, fig8)

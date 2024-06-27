@@ -13,7 +13,6 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
         [Input('metric-dropdown', 'value')]
     )
     def update_graphs(selected_metric):
-        # Bar chart
         bar_chart_fig = px.bar(df_goals_agg, x='Team', y=selected_metric, color=selected_metric,
                             color_continuous_scale='Blues', title='Team Performance Bar Chart')
         
@@ -30,7 +29,6 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
             plot_bgcolor='#d2f6f6',
             paper_bgcolor='#d2f6f6',
         )
-        # Heatmap for total goals or average goals
         if selected_metric == 'TotalGoals':
             heatmap_data = df_goals.pivot(index='Team', columns='MatchNumber', values='Goals').fillna(0)
             color_label = "Total Goals"
@@ -43,7 +41,6 @@ def register_callbacks(app, df_goals_agg, df_goals, df_matches_info):
                                 color_continuous_scale='Blues',
                                 title=f'{color_label} per Team per Match')
 
-        #  extracts the home team and away team for each matc
         customdata = []
         for match_number in heatmap_data.columns:
             match_info = df_matches_info[df_matches_info['MatchNumber'] == match_number].iloc[0]

@@ -10,17 +10,7 @@ import plotly.io as pio
 from plotly.subplots import make_subplots
 import pandas as pd
 
-
-
-
-
-# create a side bar for first column
 SIDEBAR_STYLE = {
-    # "position": "fixed",
-    # "top": 0,
-    # "left": 0,
-    # "bottom": 0,
-    # "width": "20rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
 }
@@ -57,7 +47,6 @@ def create_sidebar_layout(df):
     )
     return sidebar
 
-## score graph
 def update_score_graph(selected_match, selected_round, df):
     if selected_match is None or selected_round is None:
         return go.Figure()
@@ -71,10 +60,8 @@ def update_score_graph(selected_match, selected_round, df):
     score_home = match_data.iloc[0]['ScoreHome']
     score_away = match_data.iloc[0]['ScoreAway']
 
-    ## figure 1 - scoreboard
     score_fig = go.Figure()
 
-    # Add the title row
     score_fig.add_annotation(
         text=selected_round.capitalize(),
         xref="paper", yref="paper",
@@ -106,9 +93,7 @@ def update_score_graph(selected_match, selected_round, df):
     return score_fig
 
 
-## 2 team comp
 def update_match_stats(selected_match, selected_round, df):
-    # Ensure 'Value' column is numeric
     df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
     
     if selected_match is None or selected_round is None:
@@ -126,7 +111,6 @@ def update_match_stats(selected_match, selected_round, df):
     home_data = match_data[match_data['TeamName'] == home_team]
     away_data = match_data[match_data['TeamName'] == away_team]
 
-    # Determine the maximum value for the x-axes range
     max_value = max(home_data['Value'].max(), away_data['Value'].max())
     
     match_stats_fig = make_subplots(rows=1, 
