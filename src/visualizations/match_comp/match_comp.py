@@ -37,7 +37,7 @@ def create_sidebar_layout(df):
             [
                 dcc.Dropdown(
                 id='roundname-dropdown',
-                options=[{'label': roundname, 'value': roundname} for roundname in df['RoundName'].unique()],
+                options=[{'label': roundname.capitalize(), 'value': roundname} for roundname in df['RoundName'].unique()],
                 placeholder="Select a Round",
                 ),
                 html.Br(),
@@ -76,18 +76,17 @@ def update_score_graph(selected_match, selected_round, df):
 
     # Add the title row
     score_fig.add_annotation(
-        text=selected_round,
+        text=selected_round.capitalize(),
         xref="paper", yref="paper",
         x=0.5, y=0.95,
         showarrow=False,
         font=dict(size=48,
-                  color='#1f77b4'),
-        # bgcolor="lightgreen",
+                  color='#002366'),
         align="center"
     )
 
     score_fig.add_annotation(
-        text=f"<span style='color:darkslategrey; font-size: 36px;'>{home_team} <span style='color:red; font-size: 36px;'>{score_home} : {score_away}</span> {away_team}</span>",
+        text=f"<span style='color:darkslategrey; font-size: 36px;'>{home_team} <span style='color:darkblue; font-size: 36px;'>{score_home} : {score_away}</span> {away_team}</span>",
         xref="paper", yref="paper",
         x=0.5, y=0.25,
         showarrow=False,
@@ -99,8 +98,9 @@ def update_score_graph(selected_match, selected_round, df):
         template='seaborn',
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        # width=800, 
-	    height=350,
+        plot_bgcolor='#d2f6f6',
+        paper_bgcolor='#d2f6f6',
+        height=350,
     )
 
     return score_fig
@@ -141,9 +141,10 @@ def update_match_stats(selected_match, selected_round, df):
         x=home_data['Value'],
         orientation='h',
         name=home_team,
-        marker_color='#4472c4',
+        marker_color='#002366',
         text=home_data['Value'],
-        textposition='outside'
+        textposition='outside',
+        hovertemplate='<b>Strategy</b>: %{y}<br><b>Number</b>: %{x}<extra></extra>'
     ), row=1, col=1)
 
     match_stats_fig.add_trace(go.Bar(
@@ -151,21 +152,23 @@ def update_match_stats(selected_match, selected_round, df):
         x=away_data['Value'],
         orientation='h',
         name=away_team,
-        marker_color='#ed7d31',
+        marker_color='#c9ddff',
         text=away_data['Value'],
-        textposition='outside'
+        textposition='outside',
+        hovertemplate='<b>Strategy</b>: %{y}<br><b>Number</b>: %{x}<extra></extra>'
     ), row=1, col=2)
 
     match_stats_fig.update_yaxes(dict(autorange="reversed"),)
     match_stats_fig.update_xaxes(showticklabels=False,title_text=f"{home_team}", range=[max_value * 1.5, 0], row=1, col=1)
     match_stats_fig.update_xaxes(showticklabels=False,title_text=f"{away_team}", range=[0, max_value * 1.5], row=1, col=2)
-    match_stats_fig.update_layout(title_text=f"{home_team} vs {away_team} - {selected_round}",
-                    #   width=800, 
+    match_stats_fig.update_layout(title_text=f"{home_team} vs {away_team} - {selected_round.capitalize()}",
 	                  height=425,
                       title_x=0.5,
 	                  xaxis1=dict(title=home_team),
                       xaxis2=dict(title=away_team),
                       showlegend=False,
-                      margin=dict(l=80, r=80, t=40, b=80)
+                      margin=dict(l=80, r=80, t=40, b=80),
+                      plot_bgcolor='#d2f6f6',
+                      paper_bgcolor='#d2f6f6',
                      )
     return match_stats_fig
