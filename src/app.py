@@ -44,14 +44,8 @@ df_match_events = pd.read_csv(match_events_path)
 
 
 def display_vis4(df):
-    '''
-        Imports the .csv file and does some preprocessing.
-
-        Returns:
-            A pandas dataframe containing the preprocessed data.
-    '''
-    df_filtered  = preprocess.drop_useless_columns(df)
-    match_df = preprocess.get_statistics(df_filtered)
+    df_filtered  = preprocess.vis4_drop_useless_columns(df)
+    match_df = preprocess.vis4_get_statistics(df_filtered)
     fig4 = vis4_goal_diff.init_figure()
     fig4 = vis4_goal_diff.draw(fig4, match_df)
     

@@ -1,25 +1,29 @@
 import pandas as pd
 
-def drop_useless_columns(df):
+def vis4_drop_useless_columns(df):
     '''
-        Drops the columns 'Event' and 'Time' from the dataframe and duplicates
-        args:
-            my_df: The dataframe to preprocess
-        returns:
-            The dataframe with rounded numbers
+    Drops the columns 'Event' and 'Time' from the dataframe and duplicates.
+    
+    Args:
+        df: The dataframe to preprocess.
+        
+    Returns:
+        The dataframe with rounded numbers.
     '''
     df.drop(['Event', 'Time'], axis=1, inplace=True)
     df_games = df.drop_duplicates()
     df_games.to_csv('src/assets/data/games_info.csv', index=False) 
     return df_games.round(2)
 
-def get_statistics(df):
+def vis4_get_statistics(df):
     '''
-        compute statistics for the given dataframe
-        args:
-            df: The dataframe to compute statistics on
-        returns:
-            An array containing the total goal scored and conceded by each country with the goal difference
+    Compute statistics for the given dataframe.
+    
+    Args:
+        df: The dataframe to compute statistics on.
+        
+    Returns:
+        An array containing the total goal scored and conceded by each country with the goal difference.
     '''
     country_stats = {}
 
@@ -46,43 +50,16 @@ def get_statistics(df):
     result_df = result_df.sort_values(by='Goal_Difference', ascending=True)
     return result_df
 
-def get_goals(df):
-    """
-    Transforms the dataframe to have a single column for team names and goals.
-    
-    Args:
-        df: The dataframe with match information.
-        
-    Returns:
-        A dataframe with team names and goals, without duplicate entries.
-    """
-    df_home = df[['MatchNumber', 'HomeTeamName', 'ScoreHome', 'MatchID', 'DateandTimeCET', 'RoundName']].rename(columns={'HomeTeamName': 'Team', 'ScoreHome': 'Goals'})
-    df_away = df[['MatchNumber', 'AwayTeamName', 'ScoreAway', 'MatchID', 'DateandTimeCET', 'RoundName']].rename(columns={'AwayTeamName': 'Team', 'ScoreAway': 'Goals'})
-    df_goals = pd.concat([df_home, df_away])
-
-    df_goals = df_goals.drop_duplicates(subset=['MatchNumber', 'Team'])
-    return df_goals
-
-def calculate_goals(df):
-    """
-    Calculates total and average goals for each team.
-    
-    Args:
-        df: The dataframe with match information.
-        
-    Returns:
-        A dataframe with total and average goals for each team.
-    """
-    df_goals = get_goals(df)
-
-    df_goals_agg = df_goals.groupby('Team').agg(TotalGoals=('Goals', 'sum'), AvgGoals=('Goals', 'mean')).reset_index()
-    return df_goals_agg
-
 def vis1_get_goals_data(df):
-
-    print(df.head())
-    print(df.columns)
-
+    '''
+    Extracts and processes goals data from the dataframe.
+    
+    Args:
+        df: The dataframe containing match information.
+        
+    Returns:
+        A tuple containing the aggregated goals data, individual goals data, and match information.
+    '''
     df_matches_info = df[['HomeTeamName', 'AwayTeamName', 'DateandTimeCET', 'MatchID', 'RoundName', 'ScoreHome', 'ScoreAway', 'Event', 'Time']]
 
     df_matches_info['MatchNumber'] = df_matches_info.groupby('MatchID').ngroup() + 1
@@ -97,8 +74,16 @@ def vis1_get_goals_data(df):
 
     return df_goals_agg, df_goals, df_matches_info
 
-
 def vis5_get_total_goals(df_match_info):
+    '''
+    Computes total goals for each match and sorts them.
+    
+    Args:
+        df_match_info: The dataframe containing match information.
+        
+    Returns:
+        A dataframe sorted by total goals.
+    '''
     df_match_info['DateandTimeCET'] = pd.to_datetime(df_match_info['DateandTimeCET'])
 
     df_match_info['TotalGoals'] = df_match_info['ScoreHome'] + df_match_info['ScoreAway']
@@ -108,11 +93,29 @@ def vis5_get_total_goals(df_match_info):
     return sorted_goals
 
 def vis7_get_outcome_percentage(df):
+    '''
+    Computes the percentage of match outcomes (win, draw, loss).
+    
+    Args:
+        df: The dataframe containing match information.
+        
+    Returns:
+        A series containing the percentage of each outcome.
+    '''
     df['Outcome'] = df.apply(lambda row: 'Win' if row['ScoreHome'] > row['ScoreAway'] else ('Draw' if row['ScoreHome'] == row['ScoreAway'] else 'Loss'), axis=1)
     outcome_percentage = df['Outcome'].value_counts(normalize=True) * 100
     return outcome_percentage
 
 def vis8_get_filtered_events(df):
+    '''
+    Filters and groups events by time intervals for heatmap visualization.
+    
+    Args:
+        df: The dataframe containing event information.
+        
+    Returns:
+        A dataframe suitable for heatmap visualization with events grouped by time intervals.
+    '''
     bins = [0, 15, 30, 45, 60, 75, 90]
     labels = ['0-15', '15-30', '30-45', '45-60', '60-75', '75-90']
     df['TimeInterval'] = pd.cut(df['Minute'], bins=bins, labels=labels, right=False)
