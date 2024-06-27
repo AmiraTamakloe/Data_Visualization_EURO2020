@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def vis4_drop_useless_columns(df):
     '''
@@ -12,7 +13,11 @@ def vis4_drop_useless_columns(df):
     '''
     df.drop(['Event', 'Time'], axis=1, inplace=True)
     df_games = df.drop_duplicates()
-    df_games.to_csv('src/assets/data/games_info.csv', index=False) 
+
+    base_path = os.path.dirname(__file__)
+    games_info_path = os.path.join(base_path, 'assets/data/games_info.csv')
+
+    df_games.to_csv(games_info_path, index=False) 
     return df_games.round(2)
 
 def vis4_get_statistics(df):
